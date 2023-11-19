@@ -37,4 +37,6 @@ class Snake:
         # Adiciona o novo segmento ao corpo da cobra
         self.body.append(new_segment)
 
-    # Outros métodos da classe
+    def check_collision_with_self(self):
+        head = self.body[0]
+        return any(segment == head for segment in self.body[1:])

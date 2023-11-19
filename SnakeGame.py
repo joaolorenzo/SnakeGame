@@ -18,10 +18,8 @@ class SnakeGame:
         pyxel.init(256, 256, 'Snake Game')
         pyxel.run(self.update, self.draw)
 
-
     def update(self):
         if self.game_state == 'MENU':
-        # Código para o menu inicial
             if pyxel.btnp(pyxel.KEY_RETURN): 
                 self.game_state = 'PLAYING'
         elif self.game_state == 'GAME_OVER':
@@ -44,7 +42,6 @@ class SnakeGame:
             self.update_counter = 0
 
             self.change_snake_direction()
-
             self.snake.update()
 
             if self.check_collision():
@@ -55,10 +52,8 @@ class SnakeGame:
             if self.is_out_of_bounds(self.snake.body[0]):
                 self.game_over = True
 
-            # Adicionado verificação para colisão com o próprio corpo
-            if any(segment == self.snake.body[0] for segment in self.snake.body[1:]):
+            if self.snake.check_collision_with_self():
                 self.game_over = True
-                self.game_state = 'GAME_OVER'
 
     def change_snake_direction(self):
         if pyxel.btn(pyxel.KEY_UP) and self.snake.direction != 'DOWN':
