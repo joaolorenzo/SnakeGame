@@ -3,5 +3,5 @@ class GameElement:
         self.x = x
         self.y = y
 
-    def position(self):
-        return (self.x, self.y)
+    def is_within_bounds(self, x, y, width, height):
+        return 0 <= x < width and 0 <= y < height

@@ -8,32 +8,37 @@ class Snake(GameElement):
         self.direction = 'RIGHT'
         self.growing = False
 
-    def update(self):
+    def update(self, board_width, board_height, game_over_callback):
         if not self.body:
             raise ValueError("O corpo da cobra não pode estar vazio.")
         
         if len(self.body) > 0:
             head = self.body[0]
+            new_x, new_y = head.x, head.y
             if self.direction == 'UP':
-                new_head = Point(head.x, head.y - 1)
+                new_y -= 1
             elif self.direction == 'DOWN':
-                new_head = Point(head.x, head.y + 1)
+                new_y += 1
             elif self.direction == 'LEFT':
-                new_head = Point(head.x - 1, head.y)
+                new_x -= 1
             elif self.direction == 'RIGHT':
-                new_head = Point(head.x + 1, head.y)
-            
+                new_x += 1
+
+            if not self.is_within_bounds(new_x, new_y, board_width, board_height):
+                game_over_callback()
+                return
+
+            new_head = Point(new_x, new_y)
             self.body.insert(0, new_head)
             
             if not self.growing:
                 self.body.pop()
             
-            self.growing = False  
+            self.growing = False
+
 
     def grow(self):
-        last_segment = self.body[-1]
-        new_segment = Point(last_segment.x, last_segment.y)
-        self.body.append(new_segment)
+        self.growing = True
 
     def check_collision_with_self(self):
         head = self.body[0]
@@ -41,3 +46,8 @@ class Snake(GameElement):
             if head == segment:
                 return True
         return False
+
+    def reset(self, x, y):
+        self.body = [Point(x, y)]
+        self.direction = 'RIGHT'
+        self.growing = False

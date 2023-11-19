@@ -27,14 +27,11 @@ class SnakeGame:
                 self.reset_game()
             if pyxel.btnp(pyxel.KEY_Q): 
                 pyxel.quit()
-        else:  
+        elif self.game_state == 'PLAYING':  
             if pyxel.btnp(pyxel.KEY_Q):
                 pyxel.quit()
             if pyxel.btnp(pyxel.KEY_R):
                 self.reset_game()
-            if self.game_over:
-                self.game_state = 'GAME_OVER'
-                return
 
             self.update_counter += 1
             if self.update_counter < self.update_interval:
@@ -42,21 +39,15 @@ class SnakeGame:
             self.update_counter = 0
 
             self.change_snake_direction()
-            self.snake.update()
+            self.snake.update(self.board_width, self.board_height, self.trigger_game_over)
 
             if self.snake.check_collision_with_self():
-                self.game_over = True
-                self.game_state = 'GAME_OVER'
-                return
+                self.trigger_game_over()
 
             if self.check_collision():
                 self.snake.grow()
                 self.apple.reposition(self.snake.body, self.board_width, self.board_height)
                 self.score += 10
-
-            if self.is_out_of_bounds(self.snake.body[0]):
-                self.game_over = True
-                self.game_state = 'GAME_OVER'
 
     def change_snake_direction(self):
         if pyxel.btn(pyxel.KEY_UP) and self.snake.direction != 'DOWN':
@@ -72,8 +63,9 @@ class SnakeGame:
         head = self.snake.body[0]
         return head.x == self.apple.x and head.y == self.apple.y
 
-    def is_out_of_bounds(self, point):
-        return point.x < 0 or point.y < 0 or point.x >= 25 or point.y >= 25
+    def trigger_game_over(self):
+        self.game_over = True
+        self.game_state = 'GAME_OVER'
 
     def reset_game(self):
         self.snake = Snake(10, 10)
