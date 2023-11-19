@@ -39,4 +39,7 @@ class Snake:
 
     def check_collision_with_self(self):
         head = self.body[0]
-        return any(segment == head for segment in self.body[1:])
+        for segment in self.body[1:]:
+            if head == segment:
+                return True
+        return False

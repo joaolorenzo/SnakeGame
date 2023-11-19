@@ -24,5 +24,4 @@ class UI:
         pyxel.text(50, 80, "Q para fechar", pyxel.COLOR_WHITE)
 
     def draw_score(self, score):
-        # Método atualizado para desenhar a pontuação na tela, recebendo score como parâmetro
-        pyxel.text(5, 5, f"Score: {score}", 7)
+        pyxel.text(5, 5, f"Score: {score}", pyxel.COLOR_YELLOW)
