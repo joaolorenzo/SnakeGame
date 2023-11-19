@@ -44,19 +44,16 @@ class SnakeGame:
             self.change_snake_direction()
             self.snake.update()
 
-            # Verificar se a cobra colidiu consigo mesma
             if self.snake.check_collision_with_self():
                 self.game_over = True
                 self.game_state = 'GAME_OVER'
                 return
 
-            # Verificar primeiro se a cobra comeu a maçã
             if self.check_collision():
                 self.snake.grow()
                 self.apple.reposition(self.snake.body, self.board_width, self.board_height)
                 self.score += 10
 
-            # Verificar se a cobra saiu dos limites do tabuleiro
             if self.is_out_of_bounds(self.snake.body[0]):
                 self.game_over = True
                 self.game_state = 'GAME_OVER'
@@ -89,26 +86,18 @@ class SnakeGame:
     def draw(self):
         pyxel.cls(0)
         if self.game_state == 'MENU':
-            self.ui.draw_menu_screen()  # Desenha a tela do menu
+            self.ui.draw_menu_screen()  
         elif self.game_state == 'GAME_OVER':
-            self.ui.draw_game_over_screen()  # Desenha a tela de game over
-            self.ui.draw_score(self.score)  # Desenha a pontuação na tela de game over
+            self.ui.draw_game_over_screen() 
+            self.ui.draw_score(self.score)  
         else:
-            # Desenha a cobra e a maçã
             for segment in self.snake.body:
                 pyxel.rect(segment.x * 10, segment.y * 10, 9, 9, pyxel.COLOR_GREEN)
             pyxel.rect(self.apple.x * 10, self.apple.y * 10, 9, 9, pyxel.COLOR_RED)
 
-            # Desenha a pontuação
-            self.ui.draw_score(self.score)  # Atualizado para passar o score
+            self.ui.draw_score(self.score)  
 
-            # Instruções de controle
             pyxel.text(5, 246, "Q para fechar, R para reiniciar", pyxel.COLOR_ORANGE)
-
-
-
-    def draw_score(self):
-        pyxel.text(200, 240, f"Score: {self.score}", pyxel.COLOR_WHITE)
 
 if __name__ == "__main__":
     SnakeGame()

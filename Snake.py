@@ -1,15 +1,18 @@
 from Point import Point
+from GameElement import GameElement
 
-class Snake:
+class Snake(GameElement):
     def __init__(self, x, y):
-        self.body = [Point(x, y)]  # Inicializa com um objeto Point
+        super().__init__(x, y)
+        self.body = [Point(x, y)] 
         self.direction = 'RIGHT'
-        self.growing = False  # 
-        # Outros atributos necessários
+        self.growing = False
 
     def update(self):
+        if not self.body:
+            raise ValueError("O corpo da cobra não pode estar vazio.")
+        
         if len(self.body) > 0:
-            # Calcula a nova cabeça com base na direção atual
             head = self.body[0]
             if self.direction == 'UP':
                 new_head = Point(head.x, head.y - 1)
@@ -20,21 +23,16 @@ class Snake:
             elif self.direction == 'RIGHT':
                 new_head = Point(head.x + 1, head.y)
             
-            # Adiciona a nova cabeça ao início do corpo
             self.body.insert(0, new_head)
             
-            # Se a cobra não estiver crescendo, remove o último segmento
             if not self.growing:
                 self.body.pop()
             
             self.growing = False  
 
     def grow(self):
-        # Pega a posição do último segmento
         last_segment = self.body[-1]
-        # Cria um novo segmento como uma instância de Point
         new_segment = Point(last_segment.x, last_segment.y)
-        # Adiciona o novo segmento ao corpo da cobra
         self.body.append(new_segment)
 
     def check_collision_with_self(self):

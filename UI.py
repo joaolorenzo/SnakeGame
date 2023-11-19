@@ -11,7 +11,7 @@ class UI:
         
         pyxel.text(50, 60, "Aperte", pyxel.COLOR_WHITE)
         pyxel.text(90, 60, "ENTER", pyxel.COLOR_GREEN)
-        pyxel.text(130, 60, "para começar", pyxel.COLOR_WHITE)
+        pyxel.text(130, 60, "para comecar", pyxel.COLOR_WHITE)
         
         pyxel.text(50, 80, "Regras:", pyxel.COLOR_ORANGE)
         pyxel.text(50, 100, "- Nao saia do tabuleiro", pyxel.COLOR_WHITE)
